@@ -14,7 +14,7 @@ namespace eSuit_App
 {
     public partial class eSuit_App : Form
     {
-        eSuit _eSuit = new eSuit();
+        eSuit _eSuit;
         public eSuit_App()
         {
             InitializeComponent();
@@ -40,10 +40,15 @@ namespace eSuit_App
             tbDuration.Value = 1000;
 
             btnExecuteHit.Enabled = false;
+            lblVolts.Text = "Volts: " + tbVolts.Value.ToString() + "v";
+            lblDuration.Text = "Duration: " + tbDuration.Value.ToString() + "ms";
+
         }
 
         private void eSuit_App_Load(object sender, EventArgs e)
         {
+            _eSuit = new eSuit();
+
             Timer t = new Timer();
             t.Interval = 1000;
             t.Tick += t_Tick;
@@ -68,7 +73,7 @@ namespace eSuit_App
 
         private void btnExecuteHit_Click(object sender, EventArgs e)
         {
-
+            _eSuit.ExecuteHit((HitPlaces)Enum.Parse(typeof(HitPlaces), cbHitPlaces.SelectedItem.ToString()), tbVolts.Value, tbDuration.Value);
         }
 
         private void tbVolts_Scroll(object sender, EventArgs e)
