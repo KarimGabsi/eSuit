@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using eSuitPlugin;
+using eSuitLibrary;
 
 namespace eSuit_App
 {
@@ -32,16 +32,17 @@ namespace eSuit_App
             tbDuration.LargeChange = 10;
             tbVolts.Value = 15;
 
-            tbDuration.Minimum = 500;
+            tbDuration.Minimum = 10;
             tbDuration.Maximum = 3000;
             tbDuration.SmallChange = 1;
             tbDuration.LargeChange = 100;
             tbDuration.TickFrequency = 100;
-            tbDuration.Value = 1000;
+            tbDuration.Value = 10;
 
             btnExecuteHit.Enabled = false;
             lblVolts.Text = "Volts: " + tbVolts.Value.ToString() + "v";
             lblDuration.Text = "Duration: " + tbDuration.Value.ToString() + "ms";
+
 
         }
 
@@ -50,7 +51,7 @@ namespace eSuit_App
             _eSuit = new eSuit();
 
             Timer t = new Timer();
-            t.Interval = 1000;
+            t.Interval = 100;
             t.Tick += t_Tick;
             t.Start();
         }
