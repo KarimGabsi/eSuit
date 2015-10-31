@@ -12,6 +12,9 @@ namespace eSuitLibraryNET35
         private eSuit_Connection eSuitCon;
         public eSuit()
         {
+        }
+        public void Start()
+        {
             eSuitCon = new eSuit_Connection();
         }
         public void ExecuteHit(HitPlaces hit, int volts, int duration)
@@ -28,6 +31,11 @@ namespace eSuitLibraryNET35
         public string currentPort()
         {
             return eSuitCon.currentPort.PortName;
+        }
+        public void Dispose()
+        {
+            eSuitCon.Dispose();
+            GC.Collect();
         }
 
         

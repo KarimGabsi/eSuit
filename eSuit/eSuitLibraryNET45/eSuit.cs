@@ -14,7 +14,10 @@ namespace eSuitLibraryNET45
         private eSuit_Connection eSuitCon;
         public eSuit()
         {
-            eSuitCon = new eSuit_Connection();
+        }
+        public void Start()
+        {
+            eSuitCon = new eSuit_Connection();        
         }
         public void ExecuteHit(HitPlaces hit, int volts, int duration)
         {
@@ -37,7 +40,11 @@ namespace eSuitLibraryNET45
         {
             return eSuitCon.currentPort.PortName;
         }
-
+        public void Dispose()
+        {
+            eSuitCon.Dispose();
+            GC.Collect();
+        }
         
     }
 }

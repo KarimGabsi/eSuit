@@ -13,6 +13,7 @@ namespace eSuitLibraryNET35
         private readonly object _InUse = new object();
         private ManualResetEvent _event = new ManualResetEvent(true);
         private volatile bool _performingAction = false;
+        private System.Threading.Timer syncTimer;
 
         public SerialPort currentPort
         {
@@ -31,7 +32,8 @@ namespace eSuitLibraryNET35
             {
                 AutoResetEvent autoEvent = new AutoResetEvent(false);
                 TimerCallback tcb = Sync_eSuit;
-                System.Threading.Timer t = new System.Threading.Timer(tcb, autoEvent, 0, 1000);
+                syncTimer = new System.Threading.Timer(tcb, autoEvent, 0, 1000);
+                
             }
             catch (Exception ex)
             {
@@ -98,7 +100,7 @@ namespace eSuitLibraryNET35
             
         }
 
-        public void ExecuteHit(HitPlaces hit, int volts, int duration)
+        internal void ExecuteHit(HitPlaces hit, int volts, int duration)
         {
             _event.Reset();
             if (_connected)
@@ -143,5 +145,10 @@ namespace eSuitLibraryNET35
             
         }
 
+        internal void Dispose()
+        {
+            syncTimer.Dispose();
+            GC.Collect();       
+        }
     }
 }
