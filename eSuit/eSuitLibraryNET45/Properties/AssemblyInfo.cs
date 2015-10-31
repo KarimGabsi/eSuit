@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("eSuit")]
+[assembly: AssemblyTitle("eSuitLibraryNET45")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("eSuit")]
+[assembly: AssemblyProduct("eSuitLibraryNET45")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1304df14-bb2c-4082-ba07-f1860638c618")]
+[assembly: Guid("4ce2d52e-6afa-4a45-8a64-b52e3340e8a9")]
 
 // Version information for an assembly consists of the following four values:
 //

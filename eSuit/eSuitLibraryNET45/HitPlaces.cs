@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eSuitLibrary
+namespace eSuitLibraryNET45
 {
     public enum HitPlaces
     {

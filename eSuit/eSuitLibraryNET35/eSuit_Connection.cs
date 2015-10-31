@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Threading;
-using System.Diagnostics.Contracts;
 
-namespace eSuitLibrary
+namespace eSuitLibraryNET35
 {
     internal class eSuit_Connection
     {
@@ -31,9 +29,6 @@ namespace eSuitLibrary
         {
             try
             {
-                //Thread SyncThread = new Thread(() => Sync_eSuit());
-                //SyncThread.IsBackground = true;
-                //SyncThread.Start();
                 AutoResetEvent autoEvent = new AutoResetEvent(false);
                 TimerCallback tcb = Sync_eSuit;
                 System.Threading.Timer t = new System.Threading.Timer(tcb, autoEvent, 0, 1000);

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>eSuit_App</RootNamespace>
     <AssemblyName>eSuit_App</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -81,9 +83,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eSuit\eSuitLibrary.csproj">
-      <Project>{0a349656-8a3a-4e7e-aed8-ace1894c8f39}</Project>
-      <Name>eSuitLibrary</Name>
+    <ProjectReference Include="..\eSuitLibraryNET35\eSuitLibraryNET35.csproj">
+      <Project>{adaeeec7-35d8-4291-9df9-d74da45d6e86}</Project>
+      <Name>eSuitLibraryNET35</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eSuitLibraryNET45\eSuitLibraryNET45.csproj">
+      <Project>{6f377626-dcfa-4478-94f0-5bdcd7f4f033}</Project>
+      <Name>eSuitLibraryNET45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

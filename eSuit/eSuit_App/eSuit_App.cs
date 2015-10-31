@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using eSuitLibrary;
+using eSuitLibraryNET35;
 
 namespace eSuit_App
 {
