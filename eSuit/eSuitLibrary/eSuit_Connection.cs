@@ -99,9 +99,7 @@ namespace eSuitLibrary
                 {
 
                 }
-            }
-            
-            
+            }      
         }
 
         internal void ExecuteHit(HitPlaces hit, int volts, int duration)
