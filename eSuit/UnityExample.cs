@@ -44,8 +44,16 @@ public class MyUnityClass : MonoBehaviour
         _eSuit.Dispose();
     }
 
+    //Displaying Current eSuit Status (connection status and port used)
     void OnGUI()
     {
         GUI.Label(new Rect(200, 0, 350, 100), "eSuit: " + _eSuit.connected().ToString() + " on " + _eSuit.currentPort());
+    }
+
+    //IMPORTANT
+    //Dispose eSuit, otherwise the backgroundthread of the syncing will remain.
+    void OnApplicationQuit()
+    {
+        _eSuit.Dispose();
     }
 }
