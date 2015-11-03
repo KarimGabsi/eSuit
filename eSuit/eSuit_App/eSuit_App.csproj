@@ -83,13 +83,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eSuitLibraryNET35\eSuitLibraryNET35.csproj">
-      <Project>{adaeeec7-35d8-4291-9df9-d74da45d6e86}</Project>
-      <Name>eSuitLibraryNET35</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eSuitLibraryNET45\eSuitLibraryNET45.csproj">
-      <Project>{6f377626-dcfa-4478-94f0-5bdcd7f4f033}</Project>
-      <Name>eSuitLibraryNET45</Name>
+    <ProjectReference Include="..\eSuitLibrary\eSuitLibrary.csproj">
+      <Project>{82f2d9b7-e277-4d9e-b420-8990d1d874de}</Project>
+      <Name>eSuitLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

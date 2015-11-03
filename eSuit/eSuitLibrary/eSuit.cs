@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace eSuitLibraryNET35
+namespace eSuitLibrary
 {
     public class eSuit
     {
@@ -23,11 +23,7 @@ namespace eSuitLibraryNET35
         //Duration (min. 10, max 3000) (milliseconds)
         public void ExecuteHit(HitPlaces hit, int volts, int duration)
         {
-            if (hit == null)
-            {
-                throw new Exception("Hit can't be null");
-            }
-            else if (volts > 60 || volts < 1)
+            if (volts > 60 || volts < 1)
             {
                 throw new Exception("volts must have a value between 1 and 60");
             }
@@ -42,20 +38,38 @@ namespace eSuitLibraryNET35
                 hitThread.Start();
             }     
         }
+
         // Check the connection status.
         public bool connected()
         {
-            return eSuitCon.connected;
+            if (eSuitCon != null)
+            {
+                return eSuitCon.connected;
+            }
+            else
+            {
+                return false;
+            }
         }
         // Check the current port used by the eSuit.
         public string currentPort()
         {
-            return eSuitCon.currentPort.PortName;
+            if (eSuitCon != null)
+            {
+                return eSuitCon.currentPort.PortName;
+            }
+            else
+            {
+                return "eSuit Connection has not been started";
+            }
         }
 
         public void Dispose()
         {
-            eSuitCon.Dispose();
+            if (eSuitCon != null)
+            {
+                eSuitCon.Dispose();
+            }
             GC.Collect();
         }
 

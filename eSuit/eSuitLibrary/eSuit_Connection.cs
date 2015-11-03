@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 using System.IO.Ports;
 using System.Threading;
 
-namespace eSuitLibraryNET35
+namespace eSuitLibrary
 {
     internal class eSuit_Connection
     {
@@ -60,6 +59,7 @@ namespace eSuitLibraryNET35
                     }
                     else
                     {
+                        //Loop through connected ports
                         foreach (string port in ports)
                         {
                             try

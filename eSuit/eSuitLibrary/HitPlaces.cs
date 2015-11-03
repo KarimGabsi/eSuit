@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace eSuitLibraryNET35
+﻿namespace eSuitLibrary
 {
     public enum HitPlaces
     {

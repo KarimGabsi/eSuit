@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using eSuitLibraryNET35;
+using eSuitLibrary;
 
 namespace eSuit_App
 {
     public partial class eSuit_App : Form
     {
-        eSuit _eSuit;
+        private eSuit _eSuit;
         public eSuit_App()
         {
             InitializeComponent();
@@ -48,8 +48,13 @@ namespace eSuit_App
 
         private void eSuit_App_Load(object sender, EventArgs e)
         {
+            //Instatiate the eSuit.
             _eSuit = new eSuit();
 
+            //Start the eSuit
+            _eSuit.Start();
+
+            //Timer to check connection has changed or not.
             Timer t = new Timer();
             t.Interval = 100;
             t.Tick += t_Tick;
@@ -74,7 +79,17 @@ namespace eSuit_App
 
         private void btnExecuteHit_Click(object sender, EventArgs e)
         {
-            _eSuit.ExecuteHit((HitPlaces)Enum.Parse(typeof(HitPlaces), cbHitPlaces.SelectedItem.ToString()), tbVolts.Value, tbDuration.Value);
+            if (_eSuit.connected())
+            {
+                if (cbHitPlaces.SelectedItem == null)
+                {
+                    MessageBox.Show("Please Select a place to hit");
+                }
+                else
+                {
+                    _eSuit.ExecuteHit((HitPlaces)Enum.Parse(typeof(HitPlaces), cbHitPlaces.SelectedItem.ToString()), tbVolts.Value, tbDuration.Value);
+                }
+            }
         }
 
         private void tbVolts_Scroll(object sender, EventArgs e)
