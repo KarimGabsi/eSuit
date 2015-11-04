@@ -15,6 +15,7 @@ namespace eSuit_App
     public partial class eSuit_App : Form
     {
         private eSuit _eSuit;
+        private Timer t;
         public eSuit_App()
         {
             InitializeComponent();
@@ -55,7 +56,7 @@ namespace eSuit_App
             _eSuit.Start();
 
             //Timer to check connection has changed or not.
-            Timer t = new Timer();
+            t = new Timer();
             t.Interval = 100;
             t.Tick += t_Tick;
             t.Start();
@@ -75,6 +76,9 @@ namespace eSuit_App
                 lblStatus.Text = "Disconnected";
                 btnExecuteHit.Enabled = false;
             }
+            txtDebug.Text = eSuit_Debug.GetLog();
+            txtDebug.SelectionStart = txtDebug.Text.Length;
+            txtDebug.ScrollToCaret();
         }
 
         private void btnExecuteHit_Click(object sender, EventArgs e)
@@ -100,6 +104,12 @@ namespace eSuit_App
         private void tbDuration_Scroll(object sender, EventArgs e)
         {
             lblDuration.Text = "Duration: " + tbDuration.Value.ToString() + "ms";
+        }
+
+        private void btnSTOP_Click(object sender, EventArgs e)
+        {
+            _eSuit.Dispose();
+            t.Stop();
         }
 
 

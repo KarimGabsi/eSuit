@@ -36,47 +36,45 @@
             this.lblDuration = new System.Windows.Forms.Label();
             this.btnExecuteHit = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.txtDebug = new System.Windows.Forms.TextBox();
+            this.btnSTOP = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tbVolts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // cbHitPlaces
             // 
-            this.cbHitPlaces.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.cbHitPlaces.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbHitPlaces.FormattingEnabled = true;
             this.cbHitPlaces.Location = new System.Drawing.Point(12, 41);
             this.cbHitPlaces.Name = "cbHitPlaces";
-            this.cbHitPlaces.Size = new System.Drawing.Size(260, 21);
+            this.cbHitPlaces.Size = new System.Drawing.Size(464, 21);
             this.cbHitPlaces.TabIndex = 0;
             // 
             // tbVolts
             // 
-            this.tbVolts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tbVolts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbVolts.Location = new System.Drawing.Point(12, 104);
             this.tbVolts.Name = "tbVolts";
-            this.tbVolts.Size = new System.Drawing.Size(260, 45);
+            this.tbVolts.Size = new System.Drawing.Size(464, 45);
             this.tbVolts.TabIndex = 1;
             this.tbVolts.Scroll += new System.EventHandler(this.tbVolts_Scroll);
             // 
             // tbDuration
             // 
-            this.tbDuration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tbDuration.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbDuration.Location = new System.Drawing.Point(12, 179);
             this.tbDuration.Name = "tbDuration";
-            this.tbDuration.Size = new System.Drawing.Size(260, 45);
+            this.tbDuration.Size = new System.Drawing.Size(464, 45);
             this.tbDuration.TabIndex = 2;
             this.tbDuration.Scroll += new System.EventHandler(this.tbDuration_Scroll);
             // 
             // lblHitPlaces
             // 
-            this.lblHitPlaces.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblHitPlaces.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblHitPlaces.AutoSize = true;
             this.lblHitPlaces.Location = new System.Drawing.Point(108, 25);
@@ -87,8 +85,7 @@
             // 
             // lblVolts
             // 
-            this.lblVolts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblVolts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVolts.AutoSize = true;
             this.lblVolts.Location = new System.Drawing.Point(108, 88);
@@ -99,8 +96,7 @@
             // 
             // lblDuration
             // 
-            this.lblDuration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblDuration.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDuration.AutoSize = true;
             this.lblDuration.Location = new System.Drawing.Point(108, 163);
@@ -111,9 +107,6 @@
             // 
             // btnExecuteHit
             // 
-            this.btnExecuteHit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExecuteHit.Location = new System.Drawing.Point(12, 226);
             this.btnExecuteHit.Name = "btnExecuteHit";
             this.btnExecuteHit.Size = new System.Drawing.Size(75, 23);
@@ -124,7 +117,6 @@
             // 
             // lblStatus
             // 
-            this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStatus.AutoSize = true;
             this.lblStatus.Location = new System.Drawing.Point(93, 231);
             this.lblStatus.Name = "lblStatus";
@@ -132,11 +124,37 @@
             this.lblStatus.TabIndex = 7;
             this.lblStatus.Text = "Status";
             // 
+            // txtDebug
+            // 
+            this.txtDebug.AllowDrop = true;
+            this.txtDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDebug.Location = new System.Drawing.Point(12, 255);
+            this.txtDebug.Multiline = true;
+            this.txtDebug.Name = "txtDebug";
+            this.txtDebug.ReadOnly = true;
+            this.txtDebug.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDebug.Size = new System.Drawing.Size(464, 222);
+            this.txtDebug.TabIndex = 8;
+            // 
+            // btnSTOP
+            // 
+            this.btnSTOP.Location = new System.Drawing.Point(401, 226);
+            this.btnSTOP.Name = "btnSTOP";
+            this.btnSTOP.Size = new System.Drawing.Size(75, 23);
+            this.btnSTOP.TabIndex = 9;
+            this.btnSTOP.Text = "STOP";
+            this.btnSTOP.UseVisualStyleBackColor = true;
+            this.btnSTOP.Click += new System.EventHandler(this.btnSTOP_Click);
+            // 
             // eSuit_App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(488, 489);
+            this.Controls.Add(this.btnSTOP);
+            this.Controls.Add(this.txtDebug);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnExecuteHit);
             this.Controls.Add(this.lblDuration);
@@ -165,6 +183,8 @@
         private System.Windows.Forms.Label lblDuration;
         private System.Windows.Forms.Button btnExecuteHit;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.TextBox txtDebug;
+        private System.Windows.Forms.Button btnSTOP;
     }
 }
 

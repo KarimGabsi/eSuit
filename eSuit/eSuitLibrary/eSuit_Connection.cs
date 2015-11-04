@@ -9,10 +9,14 @@ namespace eSuitLibrary
     internal class eSuit_Connection
     {
         private SerialPort _currentPort = new SerialPort();
-        private readonly object _InUse = new object();
-        private ManualResetEvent _event = new ManualResetEvent(true);
-        private volatile bool _performingAction = false;
-        private System.Threading.Timer syncTimer;
+
+        private HitPlaces _curHitPlace;
+        private int _curVolts;
+        private int _curDuration;
+
+        private bool syncing = true;
+        private bool actionRequest = false;
+        private Thread eSuitThread;
 
         public SerialPort currentPort
         {
@@ -28,27 +32,18 @@ namespace eSuitLibrary
 
         public eSuit_Connection()
         {
-            try
-            {
-                // Create a timer for syncing the eSuit
-                // Timer checks every second whether or not the eSuit is connected
-                AutoResetEvent autoEvent = new AutoResetEvent(false);
-                TimerCallback tcb = Sync_eSuit;
-                syncTimer = new System.Threading.Timer(tcb, autoEvent, 0, 1000);               
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            eSuitThread = new Thread(() => Sync_eSuit());
+            eSuitThread.IsBackground = true;
+            eSuitThread.Start();
+
         }
 
         // Syncing eSuit Method
         // Check out every port that has devices and performs a manual handshake.
-        private void Sync_eSuit(object state)
+        // Executes hits when needed
+        private void Sync_eSuit()
         {
-            //when executing a hit, tell this thread to suspend.
-            _event.WaitOne();
-            if (!_performingAction)
+            while (syncing)
             {
                 try
                 {
@@ -68,19 +63,7 @@ namespace eSuitLibrary
                                 _currentPort.DtrEnable = true;
                                 _currentPort.RtsEnable = true;
 
-                                if (!_currentPort.IsOpen)
-                                {
-                                    _currentPort.Open();
-                                }
-
-                                _currentPort.Write("ESUIT_TRY_CONNECTION");
-                                string response = _currentPort.ReadLine().ToString().Replace("\r", "");
-
-                                if (_currentPort.IsOpen)
-                                {
-                                    _currentPort.Close();
-                                }
-
+                                string response = sendCommand("ESUIT_TRY_CONNECTION", false);
                                 if (response == "ESUIT_CONNECTION_OK")
                                 {
                                     _connected = true;
@@ -89,70 +72,90 @@ namespace eSuitLibrary
                             }
                             catch (Exception)
                             {
+                                //eSuit_Debug.Log(ex);
                                 //Port got disconnected manually
                                 _connected = false;
                             }
                         }
+
+                        //Hit Request?
+                        if (actionRequest)
+                        {
+                            try
+                            {
+                                switch (_curHitPlace)
+                                {
+                                    default:
+                                        break;
+                                    case HitPlaces.FullBody:
+                                        sendCommand("HIT_FULLBODY" + "-" + _curVolts.ToString() + "-" + _curDuration.ToString(), true);
+                                        break;
+                                    case HitPlaces.Left_Arm:
+                                        sendCommand("HIT_LEFT_ARM" + "-" + _curVolts.ToString() + "-" + _curDuration.ToString(), true);
+                                        break;
+                                    case HitPlaces.Right_Arm:
+                                        sendCommand("HIT_RIGHT_ARM" + "-" + _curVolts.ToString() + "-" + _curDuration.ToString(), true);
+                                        break;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                eSuit_Debug.Log(ex);
+                            }
+                            finally
+                            {
+                                actionRequest = false;
+                            }
+                        }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                }
-            }      
+                   //eSuit_Debug.Log(ex);
+                }  
+            }          
         }
 
         internal void ExecuteHit(HitPlaces hit, int volts, int duration)
         {
-            //Tells the syncing thread to stop.
-            _event.Reset();
-            if (_connected)
-            {
-                try
-                {
-                    sendCommand("VOLTS_" + volts.ToString());
-                    sendCommand("DURATION_" + duration.ToString());
-                    switch (hit)
-                    {
-                        default:
-                            break;
-                        case HitPlaces.FullBody:
-                            sendCommand("HIT_FULLBODY");
-                            break;
-                        case HitPlaces.Left_Arm:
-                            sendCommand("HIT_LEFT_ARM");
-                            break;
-                        case HitPlaces.Right_Arm:
-                            sendCommand("HIT_RIGHT_ARM");
-                            break;
-                    }
-                }
-                catch (Exception)
-                {
-                    //throw ex;
-                }
-            }
-            _event.Set();
+            _curHitPlace = hit;
+            _curVolts = volts;
+            _curDuration = duration;
+
+            actionRequest = true;
         }
 
-        private void sendCommand(string command)
+        private string sendCommand(string command, bool log)
         {
-            //Lock incase multiple hits got received
-            lock (_InUse)
+            if (log)
             {
-                _performingAction = true;
-                _currentPort.Open();
-                _currentPort.Write(command);
-                _currentPort.Close();
-                _performingAction = false;
+                eSuit_Debug.Log("Writing command \"" + command + "\" to eSuit");            
             }
-            
-        }
 
+            string response = "";
+            using (_currentPort)
+            {
+                if (!_currentPort.IsOpen)
+                {
+                    _currentPort.Open();
+                }
+                _currentPort.Write(command);
+                response = _currentPort.ReadLine().ToString().Replace("\r", ""); 
+            }
+
+
+            if (log)
+            {
+                eSuit_Debug.Log("eSuit Response: " + response);
+            }
+
+            return response;
+        }
+        
         internal void Dispose()
         {
-            syncTimer.Dispose();
-            GC.Collect();       
+            syncing = false;
+            GC.Collect();   
         }
     }
 }

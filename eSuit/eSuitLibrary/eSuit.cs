@@ -25,17 +25,20 @@ namespace eSuitLibrary
         {
             if (volts > 60 || volts < 1)
             {
+                eSuit_Debug.Log("Attempt Execute Hit: volts must have a value between 1 and 60");
                 throw new Exception("volts must have a value between 1 and 60");
             }
             else if (duration < 10 || duration > 3000)
             {
+                eSuit_Debug.Log("Attempt Execute Hit: duration must have a value between 10 and 3000");
                 throw new Exception("duration must have a value between 10 and 3000");
             }
             else
             {
-                Thread hitThread = new Thread(() => eSuitCon.ExecuteHit(hit, volts, duration));
-                hitThread.IsBackground = true;
-                hitThread.Start();
+                eSuitCon.ExecuteHit(hit, volts, duration);
+                //Thread hitThread = new Thread(() => eSuitCon.ExecuteHit(hit, volts, duration));
+                //hitThread.IsBackground = true;
+                //hitThread.Start();
             }     
         }
 
@@ -66,6 +69,7 @@ namespace eSuitLibrary
 
         public void Dispose()
         {
+            eSuit_Debug.Log("eSuit Disposed");
             if (eSuitCon != null)
             {
                 eSuitCon.Dispose();

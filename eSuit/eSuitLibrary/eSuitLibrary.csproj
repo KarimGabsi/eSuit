@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="eSuit_Debug.cs" />
     <Compile Include="eSuit.cs" />
     <Compile Include="eSuit_Connection.cs" />
     <Compile Include="HitPlaces.cs" />
