@@ -25,10 +25,14 @@ namespace eSuitLibrary
         /// </summary>
         public string currentPort
         {
-            get { return _currentPort.PortName; }
+            get {
+                if (_currentPort != null)
+                { return _currentPort.PortName; }
+                else { return string.Empty; }
+                }
         }
 
-        private bool _connected;
+        private bool _connected = false;
         /// <summary>
         ///    eSuit connection status
         /// </summary>
@@ -112,17 +116,17 @@ namespace eSuitLibrary
         /// <param name="hit">The place to hit</param>
         /// <param name="volts">Voltage: min. 1v - max. 35v</param>
         /// <param name="duration">Duration: min. 10 - max. 3000 milliseconds</param>
-        public void ExecuteHit(HitPlaces hit, int volts, int duration)
+        public bool ExecuteHit(HitPlaces hit, int volts, int duration)
         {
             if (volts > 35 || volts < 1)
             {
                 eSuit_Debug.Log("Attempt Execute Hit: volts must have a value between 1 and 60");
-                throw new Exception("volts must have a value between 1 and 35");
+                return false;
             }
             else if (duration < 10 || duration > 3000)
             {
                 eSuit_Debug.Log("Attempt Execute Hit: duration must have a value between 10 and 3000");
-                throw new Exception("duration must have a value between 10 and 3000");
+                return false;
             }
             else
             {
@@ -140,6 +144,8 @@ namespace eSuitLibrary
                         sendCommand("HIT_RIGHT_ARM" + "-" + volts.ToString() + "-" + duration.ToString(), true);
                         break;
                 }
+
+                return true;
             }     
         }
 

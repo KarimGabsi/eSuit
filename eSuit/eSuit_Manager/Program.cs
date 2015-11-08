@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace eSuit_Server
+namespace eSuit_Manager
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace eSuit_Server
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new eSuitServer());
+            Application.Run(new eSuitManager());
         }
     }
 }

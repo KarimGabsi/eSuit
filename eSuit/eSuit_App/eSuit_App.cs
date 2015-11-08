@@ -48,7 +48,6 @@ namespace eSuit_App
 
         private void eSuit_App_Load(object sender, EventArgs e)
         {
-            //Start the eSuit
             _eSuit = new eSuit();
 
             //Timer to check connection has changed or not.
@@ -107,7 +106,6 @@ namespace eSuit_App
         private void eSuit_App_FormClosed(object sender, FormClosedEventArgs e)
         {
             _eSuit.Dispose();
-
         }
 
 
