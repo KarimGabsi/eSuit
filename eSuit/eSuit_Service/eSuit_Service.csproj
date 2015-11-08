@@ -62,9 +62,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="eSuitService.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CorsBehaviourAttribute.cs" />
+    <Compile Include="CorsDispatchMessageInspector.cs" />
+    <Compile Include="CorsFormatter.cs" />
+    <Compile Include="CorsInvoker.cs" />
     <Compile Include="eSuitService.svc.cs">
       <DependentUpon>eSuitService.svc</DependentUpon>
     </Compile>

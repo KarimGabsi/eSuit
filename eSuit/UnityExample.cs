@@ -7,14 +7,14 @@ using eSuitLibrary;
 public class MyUnityClass : MonoBehaviour
 {
     //eSuit Instatiation
-    private eSuit _eSuit = new eSuit();
+    private eSuit _eSuit;
     public int health = 100;
 
     //Unity Start
     void Start()
     {
-        //Start eSuit syncing
-        _eSuit.Start();
+        //Intantiate eSuit
+        _eSuit = new eSuit();
     }
 
     //Unity Update
@@ -30,7 +30,7 @@ public class MyUnityClass : MonoBehaviour
     void OnTriggerEnter2D()
     {
         health--;
-        _eSuit.ExecuteHit(HitPlaces.Left_Arm, 50, 400);
+        _eSuit.ExecuteHit(HitPlaces.FULLBODY, 15, 100);
     }
     void Die()
     {

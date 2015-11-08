@@ -12,6 +12,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Web;
 using eSuit_Service;
+using System.ServiceModel.Channels;
 
 namespace eSuit_Manager
 {
@@ -26,11 +27,19 @@ namespace eSuit_Manager
         public eSuitManager()
         {
             InitializeComponent();
-
             host = new WebServiceHost(typeof(eSuitService), new Uri("http://localhost:6969/"));
-            ep = host.AddServiceEndpoint(typeof(IeSuitService), new WebHttpBinding(), "");
+            ep = host.AddServiceEndpoint(typeof(IeSuitService), new WebHttpBinding(WebHttpSecurityMode.None), "");
+            
+            ep.EndpointBehaviors.Add(new CorsBehaviorAttribute());
+            foreach (var operation in ep.Contract.Operations)
+            {
+                //add support for cors (and for operation to be able to not  
+                //invoke the operation if we have a preflight cors request)  
+                operation.Behaviors.Add(new CorsBehaviorAttribute());
+            }  
             sdb = host.Description.Behaviors.Find<ServiceDebugBehavior>();
             sdb.HttpHelpPageEnabled = false;
+            
             host.Open();
         }
 

@@ -5,7 +5,10 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+
 using eSuitLibrary;
+using System.Web;
+using System.ServiceModel.Channels;
 
 namespace eSuit_Service
 {
@@ -15,7 +18,7 @@ namespace eSuit_Service
     public class eSuitService : IeSuitService, IDisposable
     {
         private static eSuit _eSuit = new eSuit();
-
+        
         public bool ExecuteHit(string hitplace, int volts, int duration)
         {
             return _eSuit.ExecuteHit((HitPlaces)Enum.Parse(typeof(HitPlaces), hitplace), volts, duration);
