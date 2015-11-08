@@ -44,16 +44,12 @@ namespace eSuit_App
             lblVolts.Text = "Volts: " + tbVolts.Value.ToString() + "v";
             lblDuration.Text = "Duration: " + tbDuration.Value.ToString() + "ms";
 
-
         }
 
         private void eSuit_App_Load(object sender, EventArgs e)
         {
-            //Instatiate the eSuit.
-            _eSuit = new eSuit();
-
             //Start the eSuit
-            _eSuit.Start();
+            _eSuit = new eSuit();
 
             //Timer to check connection has changed or not.
             t = new Timer();
@@ -64,10 +60,14 @@ namespace eSuit_App
 
         private void t_Tick(object sender, EventArgs e)
         {
-            if (_eSuit.connected())
+            txtDebug.Text = eSuit_Debug.GetLog();
+            txtDebug.SelectionStart = txtDebug.Text.Length;
+            txtDebug.ScrollToCaret();
+
+            if (_eSuit.connected)
             {
                 lblStatus.ForeColor = Color.Green;
-                lblStatus.Text = "Connected on " + _eSuit.currentPort();
+                lblStatus.Text = "Connected on " + _eSuit.currentPort;
                 btnExecuteHit.Enabled = true;
             }
             else
@@ -76,14 +76,12 @@ namespace eSuit_App
                 lblStatus.Text = "Disconnected";
                 btnExecuteHit.Enabled = false;
             }
-            txtDebug.Text = eSuit_Debug.GetLog();
-            txtDebug.SelectionStart = txtDebug.Text.Length;
-            txtDebug.ScrollToCaret();
+
         }
 
         private void btnExecuteHit_Click(object sender, EventArgs e)
         {
-            if (_eSuit.connected())
+            if (_eSuit.connected)
             {
                 if (cbHitPlaces.SelectedItem == null)
                 {
@@ -106,10 +104,10 @@ namespace eSuit_App
             lblDuration.Text = "Duration: " + tbDuration.Value.ToString() + "ms";
         }
 
-        private void btnSTOP_Click(object sender, EventArgs e)
+        private void eSuit_App_FormClosed(object sender, FormClosedEventArgs e)
         {
             _eSuit.Dispose();
-            t.Stop();
+
         }
 
 

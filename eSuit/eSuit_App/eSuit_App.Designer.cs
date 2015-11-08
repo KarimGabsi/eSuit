@@ -37,7 +37,6 @@
             this.btnExecuteHit = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
             this.txtDebug = new System.Windows.Forms.TextBox();
-            this.btnSTOP = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tbVolts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDuration)).BeginInit();
             this.SuspendLayout();
@@ -138,22 +137,11 @@
             this.txtDebug.Size = new System.Drawing.Size(464, 222);
             this.txtDebug.TabIndex = 8;
             // 
-            // btnSTOP
-            // 
-            this.btnSTOP.Location = new System.Drawing.Point(401, 226);
-            this.btnSTOP.Name = "btnSTOP";
-            this.btnSTOP.Size = new System.Drawing.Size(75, 23);
-            this.btnSTOP.TabIndex = 9;
-            this.btnSTOP.Text = "STOP";
-            this.btnSTOP.UseVisualStyleBackColor = true;
-            this.btnSTOP.Click += new System.EventHandler(this.btnSTOP_Click);
-            // 
             // eSuit_App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(488, 489);
-            this.Controls.Add(this.btnSTOP);
             this.Controls.Add(this.txtDebug);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnExecuteHit);
@@ -165,6 +153,7 @@
             this.Controls.Add(this.cbHitPlaces);
             this.Name = "eSuit_App";
             this.Text = "eSuit App";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.eSuit_App_FormClosed);
             this.Load += new System.EventHandler(this.eSuit_App_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tbVolts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDuration)).EndInit();
@@ -184,7 +173,6 @@
         private System.Windows.Forms.Button btnExecuteHit;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.TextBox txtDebug;
-        private System.Windows.Forms.Button btnSTOP;
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -7,26 +8,116 @@ using System.Threading;
 
 namespace eSuitLibrary
 {
-    public class eSuit
+    public class eSuit : IDisposable
     {
-        private eSuit_Connection eSuitCon;
+        /// <summary>
+        ///     A DeviceManager to watch for devices
+        /// </summary>
+        private DeviceManager _DeviceManager;
+
+        /// <summary>
+        ///     A SerialPort containing the connected device
+        /// </summary>
+        private SerialPort _currentPort = null;
+
+        /// <summary>
+        ///    eSuit current port
+        /// </summary>
+        public string currentPort
+        {
+            get { return _currentPort.PortName; }
+        }
+
+        private bool _connected;
+        /// <summary>
+        ///    eSuit connection status
+        /// </summary>
+        public bool connected
+        {
+            get { return _connected; }
+        }
+
+        /// <summary>
+        ///    eSuit constructor
+        ///    Starts an instance of Device Manager and event for PropertyChanged
+        /// </summary>
         public eSuit()
         {
+            _DeviceManager = new DeviceManager();
+            _DeviceManager.PropertyChanged += new PropertyChangedEventHandler(_DeviceManager_PropertyChanged);
         }
-        //Start eSuit Connection
-        public void Start()
+
+        /// <summary>
+        ///     Triggers everytime a device connects/deconnects from the PC.
+        ///     Checks whether or not that device is eSuit
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/> instance containing the event data.</param>
+        private void _DeviceManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            eSuitCon = new eSuit_Connection();
+            if ((sender as DeviceManager).SerialPorts.Count != 0)
+            {
+                Connect_eSuit((sender as DeviceManager).SerialPorts);
+            }
+            else
+            {
+                _connected = false;
+            }
         }
-        //Execute a Hit on the eSuit
-        //Volts (min. 1, max. 60) (volts)
-        //Duration (min. 10, max 3000) (milliseconds)
+
+        /// <summary>
+        ///     Attempts to connect to eSuit
+        /// </summary>
+        /// <param name="ports">Connected Ports</param>
+        private void Connect_eSuit(Dictionary<string, SerialPort> ports)
+        {
+            foreach (KeyValuePair<string, SerialPort> port in ports)
+            {
+                try
+                {
+                    _currentPort = port.Value;
+                    _currentPort.DtrEnable = true;
+                    _currentPort.RtsEnable = true;
+                    _currentPort.ReadTimeout = 500;
+
+                    string response = sendCommand("ESUIT_TRY_CONNECTION", false);
+                    if (response == "ESUIT_CONNECTION_OK")
+                    {
+                        _connected = true;
+                        break;
+                    }
+                    else
+                    {
+                        _currentPort = null;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    //Port got disconnected manually
+                    eSuit_Debug.Log(ex);
+                    _currentPort = null;
+                }
+            }
+            if (_currentPort == null)
+            {
+                _connected = false;
+            }
+
+        }
+
+        /// <summary>
+        ///     Executes a hit!
+        /// </summary>
+        /// <param name="hit">The place to hit</param>
+        /// <param name="volts">Voltage: min. 1v - max. 35v</param>
+        /// <param name="duration">Duration: min. 10 - max. 3000 milliseconds</param>
         public void ExecuteHit(HitPlaces hit, int volts, int duration)
         {
-            if (volts > 60 || volts < 1)
+            if (volts > 35 || volts < 1)
             {
                 eSuit_Debug.Log("Attempt Execute Hit: volts must have a value between 1 and 60");
-                throw new Exception("volts must have a value between 1 and 60");
+                throw new Exception("volts must have a value between 1 and 35");
             }
             else if (duration < 10 || duration > 3000)
             {
@@ -35,48 +126,56 @@ namespace eSuitLibrary
             }
             else
             {
-                eSuitCon.ExecuteHit(hit, volts, duration);
-                //Thread hitThread = new Thread(() => eSuitCon.ExecuteHit(hit, volts, duration));
-                //hitThread.IsBackground = true;
-                //hitThread.Start();
+                switch (hit)
+                {
+                    default:
+                        break;
+                    case HitPlaces.FULLBODY:
+                        sendCommand("HIT_FULLBODY" + "-" + volts.ToString() + "-" + duration.ToString(), true);
+                        break;
+                    case HitPlaces.LEFT_ARM:
+                        sendCommand("HIT_LEFT_ARM" + "-" + volts.ToString() + "-" + duration.ToString(), true);
+                        break;
+                    case HitPlaces.RIGHT_ARM:
+                        sendCommand("HIT_RIGHT_ARM" + "-" + volts.ToString() + "-" + duration.ToString(), true);
+                        break;
+                }
             }     
         }
 
-        // Check the connection status.
-        public bool connected()
+
+        /// <summary>
+        ///     Sends a command to the eSuit & returns a response
+        /// </summary>
+        /// <param name="command">The command to send</param>
+        /// <param name="log">Log this event</param>
+        private string sendCommand(string command, bool log)
         {
-            if (eSuitCon != null)
+            if (log)
             {
-                return eSuitCon.connected;
+                eSuit_Debug.Log("Writing command \"" + command + "\" to eSuit");
             }
-            else
+
+            _currentPort.Open();
+            _currentPort.Write(command);
+            string response = _currentPort.ReadLine().ToString().Replace("\r", "");
+            _currentPort.Close();
+
+            if (log)
             {
-                return false;
+                eSuit_Debug.Log("eSuit Response: " + response);
             }
-        }
-        // Check the current port used by the eSuit.
-        public string currentPort()
-        {
-            if (eSuitCon != null)
-            {
-                return eSuitCon.currentPort.PortName;
-            }
-            else
-            {
-                return "eSuit Connection has not been started";
-            }
+
+            return response;
         }
 
+        /// <summary>
+        ///     Dispose this and the devicemanager
+        /// </summary>
         public void Dispose()
         {
             eSuit_Debug.Log("eSuit Disposed");
-            if (eSuitCon != null)
-            {
-                eSuitCon.Dispose();
-            }
-            GC.Collect();
+            _DeviceManager.Dispose();
         }
-
-        
     }
 }
