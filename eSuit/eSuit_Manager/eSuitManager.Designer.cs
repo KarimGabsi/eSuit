@@ -38,7 +38,8 @@
             this.txtDebug.Multiline = true;
             this.txtDebug.Name = "txtDebug";
             this.txtDebug.ReadOnly = true;
-            this.txtDebug.Size = new System.Drawing.Size(260, 200);
+            this.txtDebug.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDebug.Size = new System.Drawing.Size(447, 200);
             this.txtDebug.TabIndex = 1;
             // 
             // lblStatus
@@ -54,7 +55,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(471, 261);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.txtDebug);
             this.Name = "eSuitManager";

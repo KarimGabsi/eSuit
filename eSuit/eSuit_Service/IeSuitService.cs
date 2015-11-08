@@ -12,18 +12,21 @@ namespace eSuit_Service
     [ServiceContract]
     public interface IeSuitService
     {
-
         [OperationContract]
-        [WebGet] // GET
+        [WebGet(ResponseFormat = WebMessageFormat.Json)]
         //[WebInvoke] POST
         bool ExecuteHit(string hitplace, int volts, int duration);
 
         [OperationContract]
-        [WebGet] // GET
+        [WebGet(ResponseFormat=WebMessageFormat.Json)]
         bool Connected();
 
         [OperationContract]
-        [WebGet] // GET
+        [WebGet(ResponseFormat = WebMessageFormat.Json)] 
         string CurrentPort();
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json)]
+        string GetLog();
     }
 }

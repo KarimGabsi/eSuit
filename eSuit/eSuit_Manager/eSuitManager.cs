@@ -31,7 +31,6 @@ namespace eSuit_Manager
             ep = host.AddServiceEndpoint(typeof(IeSuitService), new WebHttpBinding(), "");
             sdb = host.Description.Behaviors.Find<ServiceDebugBehavior>();
             sdb.HttpHelpPageEnabled = false;
-
             host.Open();
         }
 
@@ -61,6 +60,10 @@ namespace eSuit_Manager
                 lblStatus.ForeColor = Color.Red;
                 lblStatus.Text = "eSuit disconnected";
             }
+
+            txtDebug.Text = ess.GetLog();
+            txtDebug.SelectionStart = txtDebug.Text.Length;
+            txtDebug.ScrollToCaret();
         }
     }
 }

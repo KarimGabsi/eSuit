@@ -49,6 +49,12 @@ namespace eSuitLibrary
         {
             _DeviceManager = new DeviceManager();
             _DeviceManager.PropertyChanged += new PropertyChangedEventHandler(_DeviceManager_PropertyChanged);
+
+            //Try Connection in case eSuit is already connected.
+            if (_DeviceManager.SerialPorts.Count != 0)
+            {
+                Connect_eSuit(_DeviceManager.SerialPorts);
+            }
         }
 
         /// <summary>
@@ -82,7 +88,6 @@ namespace eSuitLibrary
                     _currentPort = port.Value;
                     _currentPort.DtrEnable = true;
                     _currentPort.RtsEnable = true;
-                    _currentPort.ReadTimeout = 500;
 
                     string response = sendCommand("ESUIT_TRY_CONNECTION", false);
                     if (response == "ESUIT_CONNECTION_OK")
@@ -109,7 +114,7 @@ namespace eSuitLibrary
             }
 
         }
-
+        
         /// <summary>
         ///     Executes a hit!
         /// </summary>
@@ -118,35 +123,44 @@ namespace eSuitLibrary
         /// <param name="duration">Duration: min. 10 - max. 3000 milliseconds</param>
         public bool ExecuteHit(HitPlaces hit, int volts, int duration)
         {
-            if (volts > 35 || volts < 1)
+            if (_connected)
             {
-                eSuit_Debug.Log("Attempt Execute Hit: volts must have a value between 1 and 60");
-                return false;
-            }
-            else if (duration < 10 || duration > 3000)
-            {
-                eSuit_Debug.Log("Attempt Execute Hit: duration must have a value between 10 and 3000");
-                return false;
-            }
-            else
-            {
-                switch (hit)
+                if (volts > 35 || volts < 1)
                 {
-                    default:
-                        break;
-                    case HitPlaces.FULLBODY:
-                        sendCommand("HIT_FULLBODY" + "-" + volts.ToString() + "-" + duration.ToString(), true);
-                        break;
-                    case HitPlaces.LEFT_ARM:
-                        sendCommand("HIT_LEFT_ARM" + "-" + volts.ToString() + "-" + duration.ToString(), true);
-                        break;
-                    case HitPlaces.RIGHT_ARM:
-                        sendCommand("HIT_RIGHT_ARM" + "-" + volts.ToString() + "-" + duration.ToString(), true);
-                        break;
+                    eSuit_Debug.Log("Attempt Execute Hit: volts must have a value between 1 and 60");
+                    return false;
                 }
+                else if (duration < 10 || duration > 3000)
+                {
+                    eSuit_Debug.Log("Attempt Execute Hit: duration must have a value between 10 and 3000");
+                    return false;
+                }
+                else
+                {
+                    switch (hit)
+                    {
+                        default:
+                            break;
+                        case HitPlaces.FULLBODY:
+                            sendCommand("HIT_FULLBODY" + "-" + volts.ToString() + "-" + duration.ToString(), true);
+                            break;
+                        case HitPlaces.LEFT_ARM:
+                            sendCommand("HIT_LEFT_ARM" + "-" + volts.ToString() + "-" + duration.ToString(), true);
+                            break;
+                        case HitPlaces.RIGHT_ARM:
+                            sendCommand("HIT_RIGHT_ARM" + "-" + volts.ToString() + "-" + duration.ToString(), true);
+                            break;
+                    }
 
-                return true;
-            }     
+                    return true;
+                }
+            }
+            else 
+            {
+                eSuit_Debug.Log("Attempt Execute Hit while eSuit is not connected");
+                return false;
+            }
+     
         }
 
 

@@ -18,19 +18,20 @@ namespace eSuit_Service
 
         public bool ExecuteHit(string hitplace, int volts, int duration)
         {
-            //WebOperationContext.Current.OutgoingResponse.ContentType = "text/html";
             return _eSuit.ExecuteHit((HitPlaces)Enum.Parse(typeof(HitPlaces), hitplace), volts, duration);
         }
 
         public bool Connected()
         {
-            //WebOperationContext.Current.OutgoingResponse.ContentType = "text/html";
             return _eSuit.connected;
         }
         public string CurrentPort()
         {
-            //WebOperationContext.Current.OutgoingResponse.ContentType = "text/html";
             return _eSuit.currentPort;
+        }
+        public string GetLog()
+        {
+            return eSuit_Debug.GetLog();
         }
 
         public void Dispose()
