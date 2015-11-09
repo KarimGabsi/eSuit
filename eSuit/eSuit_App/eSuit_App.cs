@@ -34,7 +34,7 @@ namespace eSuit_App
             tbVolts.Value = 15;
 
             tbDuration.Minimum = 10;
-            tbDuration.Maximum = 3000;
+            tbDuration.Maximum = 2000;
             tbDuration.SmallChange = 1;
             tbDuration.LargeChange = 100;
             tbDuration.TickFrequency = 100;
