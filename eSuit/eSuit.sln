@@ -8,15 +8,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eSuitLibrary", "eSuitLibrary\eSuitLibrary.csproj", "{82F2D9B7-E277-4D9E-B420-8990D1D874DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{815CB348-B50B-4D0A-8DA1-8EADBB5C6849}"
+	ProjectSection(SolutionItems) = preProject
+		UnityExample.cs = UnityExample.cs
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eSuit_Service", "eSuit_Service\eSuit_Service.csproj", "{88C552AB-868F-4511-BB21-FC374E40432B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eSuit_Manager", "eSuit_Manager\eSuit_Manager.csproj", "{2DC84A95-3BD5-4BBB-9EB3-F5E892C78805}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unity", "Unity", "{65DD1B59-FB58-477A-8101-1EDB3326A742}"
-	ProjectSection(SolutionItems) = preProject
-		UnityExample.cs = UnityExample.cs
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,8 +41,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{65DD1B59-FB58-477A-8101-1EDB3326A742} = {815CB348-B50B-4D0A-8DA1-8EADBB5C6849}
 	EndGlobalSection
 EndGlobal

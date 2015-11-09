@@ -28,9 +28,9 @@ namespace eSuit_App
             }
 
             tbVolts.Minimum = 1;
-            tbVolts.Maximum = 60;
+            tbVolts.Maximum = 35;
             tbDuration.SmallChange = 1;
-            tbDuration.LargeChange = 10;
+            tbDuration.LargeChange = 5;
             tbVolts.Value = 15;
 
             tbDuration.Minimum = 10;
