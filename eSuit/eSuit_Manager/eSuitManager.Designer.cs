@@ -62,6 +62,7 @@
             this.Text = "eSuit Manager";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.eSuitManager_FormClosed);
             this.Load += new System.EventHandler(this.eSuitManager_Load);
+            this.Resize += new System.EventHandler(this.eSuitManager_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -21,13 +21,27 @@ namespace eSuit_Manager
         WebServiceHost host;
         ServiceEndpoint ep;
         ServiceDebugBehavior sdb;
+        NotifyIcon eSuitIcon;
 
         private System.Windows.Forms.Timer t;
 
         public eSuitManager()
         {
             InitializeComponent();
-            host = new WebServiceHost(typeof(eSuitService), new Uri("http://localhost:6969/"));
+
+            eSuitIcon = new NotifyIcon();
+            eSuitIcon.DoubleClick += eSuitIcon_DoubleClick;
+
+            // Attach a context menu.
+            eSuitIcon.ContextMenuStrip = IconMenu();
+
+            eSuitIcon.BalloonTipText = "eSuit Manager is running...";
+            eSuitIcon.BalloonTipTitle = "eSuit Manager";
+            eSuitIcon.BalloonTipIcon = ToolTipIcon.None;
+
+            eSuitIcon.Icon = Resources.eSuit;
+
+            host = new WebServiceHost(typeof(eSuitService), new Uri("http://localhost:6969/esuit"));
             ep = host.AddServiceEndpoint(typeof(IeSuitService), new WebHttpBinding(WebHttpSecurityMode.None), "");
             
             ep.EndpointBehaviors.Add(new CorsBehaviorAttribute());
@@ -46,6 +60,7 @@ namespace eSuit_Manager
         private void eSuitManager_FormClosed(object sender, FormClosedEventArgs e)
         {
             host.Close();
+            eSuitIcon.Dispose();
         }
 
         private void eSuitManager_Load(object sender, EventArgs e)
@@ -73,6 +88,51 @@ namespace eSuit_Manager
             txtDebug.Text = ess.GetLog();
             txtDebug.SelectionStart = txtDebug.Text.Length;
             txtDebug.ScrollToCaret();
+        }
+
+        private void eSuitManager_Resize(object sender, EventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                eSuitIcon.Visible = true;
+                eSuitIcon.ShowBalloonTip(5000);
+                this.Hide();
+            }
+
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                eSuitIcon.Visible = false;
+            }
+        }
+
+        private void eSuitIcon_DoubleClick(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns>ContextMenuStrip</returns>
+        public ContextMenuStrip IconMenu()
+        {
+            // Add the default menu options.
+            ContextMenuStrip menu = new ContextMenuStrip();
+            ToolStripMenuItem item;
+
+            // Exit.
+            item = new ToolStripMenuItem();
+            item.Text = "Exit";
+            item.Click += new System.EventHandler(Exit_Click);
+            menu.Items.Add(item);
+
+            return menu;
+        }
+
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
