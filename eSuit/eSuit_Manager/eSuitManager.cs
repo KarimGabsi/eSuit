@@ -18,10 +18,12 @@ namespace eSuit_Manager
 {
     public partial class eSuitManager : Form
     {
-        WebServiceHost host;
-        ServiceEndpoint ep;
-        ServiceDebugBehavior sdb;
-        NotifyIcon eSuitIcon;
+        private WebServiceHost host;
+        private ServiceEndpoint ep;
+        private ServiceDebugBehavior sdb;
+        private NotifyIcon eSuitIcon;
+
+        private bool tempConnected = false;
 
         private System.Windows.Forms.Timer t;
 
@@ -35,7 +37,8 @@ namespace eSuit_Manager
             // Attach a context menu.
             eSuitIcon.ContextMenuStrip = IconMenu();
 
-            eSuitIcon.BalloonTipText = "eSuit Manager is running...";
+            eSuitIcon.Visible = true;
+
             eSuitIcon.BalloonTipTitle = "eSuit Manager";
             eSuitIcon.BalloonTipIcon = ToolTipIcon.None;
 
@@ -84,7 +87,19 @@ namespace eSuit_Manager
                 lblStatus.ForeColor = Color.Red;
                 lblStatus.Text = "eSuit disconnected";
             }
-
+            if (tempConnected != ess.Connected())
+            {
+                tempConnected = ess.Connected();
+                if (tempConnected)
+                {
+                    eSuitIcon.BalloonTipText = "eSuit connected";
+                }
+                else
+                {
+                    eSuitIcon.BalloonTipText = "eSuit disconnected";
+                }
+                eSuitIcon.ShowBalloonTip(100);
+            }
             txtDebug.Text = ess.GetLog();
             txtDebug.SelectionStart = txtDebug.Text.Length;
             txtDebug.ScrollToCaret();
@@ -95,13 +110,7 @@ namespace eSuit_Manager
             if (FormWindowState.Minimized == this.WindowState)
             {
                 eSuitIcon.Visible = true;
-                eSuitIcon.ShowBalloonTip(5000);
                 this.Hide();
-            }
-
-            else if (FormWindowState.Normal == this.WindowState)
-            {
-                eSuitIcon.Visible = false;
             }
         }
 
